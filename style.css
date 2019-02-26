@@ -1,0 +1,110 @@
+body {
+    text-align: center;
+}
+
+#dropdownFrame {
+    background-color: beige;
+    width: 960px;
+    display: inline-block;
+    position: relative;
+    text-align: left;
+    padding: 10px;
+}
+
+#questionWindow {
+    font-size: 14pt;
+}
+
+#answersWindow {
+    margin: 10px 0;
+}
+
+#resultWindow {
+    height: 75px;
+    user-select: auto;
+}
+
+#finalScore {
+    display: inline-block;
+    font-size: 24pt;
+}
+
+#countdownTimer {
+    height: 50px;
+    line-height: 50px;
+    width: 50px;
+    border-radius: 35px;
+    border: 10px solid red;
+    text-align: center;
+    font-size: 35px;
+    font-weight: bold;
+    background-color: bisque;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#scoreContainer, #categories {
+    text-align: center;
+}
+
+#scoreWindow {
+    text-align: center;
+    position: relative;
+    font-size: 20pt;
+    display: inline-block;
+    flex-direction: row;
+    box-sizing: border-box;
+
+    /* border: 1px solid black; */
+}
+
+.pop {
+    border: 10px solid red;
+    margin: -10px;
+    /* border-radius: 39px; */
+    /* color: rebeccapurple;
+    background-color: rebeccapurple; */
+}
+
+.explanation {
+    font-style: italic;
+    color: gray;
+    font-size: 14pt;
+}
+
+.correct {
+    color: green;
+    font-size: 18pt;
+}
+
+.wrong {
+    color: red;
+    font-size: 18pt;
+}
+
+.answerButton {
+    font-size: 12pt;
+    background-color: bisque;
+    border-radius: 3px;
+    margin: 10px 0 10px 50px;
+    cursor: pointer;
+}
+
+.categoryButton {
+    font-size: 12pt;
+    background-color: bisque;
+    border-radius: 3px;
+    margin: 20px;
+    cursor: pointer;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
+  }
