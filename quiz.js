@@ -1,7 +1,9 @@
 // jshint esversion: 6
 // jshint multistr: true
 var score = 0;
+var maxScore = 0;
 var questions = [];
+var category = "";
 var currentQuestion;
 
 class question {
@@ -24,13 +26,16 @@ function getCategories () {
         10, "c", "At 12,742 km in diameter, Earth is about 5.3% larger than Venus."),
         new question("If the sun were the size of a ping pong ball, located in Minneapolis, where might you find the next nearest star?",
         ["Saint Paul", "Pittsburg", "Antarctica", "The Moon"], 
-        12, "b", "With the sun at a scale of 4cm, the next nearest star (Alpha Centauri) would be about 1,188 km away."),
+        10, "b", "With the sun at a scale of 4cm, the next nearest star (Alpha Centauri) would be about 1,188 km away."),
         new question("Which is the largest number?",
         ["stars in the Milky Way", "humans on Earth", "age of the sun in years", "galaxies in the universe"], 
-        15, "d", "There are about one to two trillion galaxies in the observable universe, more than the number of stars in the Milky Way."),
+        10, "d", "There are about one to two trillion galaxies in the observable universe, more than the number of stars in the Milky Way."),
         new question("After Mars, which is the next largest object in the solar system?",
         ["Mercury", "Pluto", "Jupiter's moon Ganymede", "Saturn's moon Titan"],
-        15, "c", "Ganymede is 5,268 km in diameter, larger than the planet Mercury (4,878 km)! Titan is only slightly smaller at 5,151 km.  Tiny Pluto is just 2,390km across."),
+        10, "c", "Ganymede is 5,268 km in diameter, larger than the planet Mercury (4,878 km)! Titan is only slightly smaller at 5,151 km.  Tiny Pluto is just 2,390km across."),
+        new question("Which of these objects is largest in diameter?",
+        ["neutron star", "brown dwarf", "black hole", "Earth"],
+        10, "b", "Though massive, neturon stars and black holes are extremely dense, making them physically much smaller than Earth.  A brown dwarf (a would-be star too small to ignite) is nonetheless larger than Jupiter.")
     ],
     "animals": [
         new question("What is the largest animal the has ever lived?",
@@ -38,15 +43,22 @@ function getCategories () {
         10, "a", "With a mass of up to 170 metric tons, the blue whale is larger than any dinosaur ever discovered."),
         new question("Which mammal is most distantly related to humans?",
         ["kangaroo", "walrus", "elephant", "zebra"], 
-        10, "a", "Kangaroos and other marsupials diverged from the rest of the mammalian evolutionary tree at least 65 million years ago."),
+        10, "a", "Kangaroos and other marsupials diverged from the rest of the mammalian family tree at least 65 million years ago."),
         new question("Which of these is not a rodent?",
         ["capybara", "chinchilla", "beaver", "elephant shrew"], 
-        10, "d", "Though originally named for its trunk-like nose, it turns out that the elephant shrew is actually more closely related to elephants than to shrews.")
+        10, "d", "Though originally named for its trunk-like nose, it turns out that the elephant shrew is actually more closely related to elephants than shrews."),
+        new question("Which of these creatures does not lay eggs?",
+        ["echidna", "giant tortise", "rattlesnake", "bullfrog"], 
+        10, "c", "Many snakes do lay eggs; the rattlesnake, however, gives birth to live young."),
+        new question("Which of these swims the fastest?",
+        ["blue whale", "flying fish", "Michael Phelps", "sailfish"], 
+        10, "d", "With a top speed comparable to that of a cheetah, the sailfish is the fastest fish in the sea.")
     ]};
 }
 
 function getCategory(categoryName) {
-    return getCategories()[categoryName];
+    category = categoryName;
+    questions = getCategories()[category];
 }
 
 $('document').ready(() => {
@@ -64,6 +76,10 @@ function beginRound() {
     $("#categories").hide();
     // clear score
     addScore(-score);
+    // calculate max points
+    maxScore = questions.map((question) => {return question.timeallowed * 2;})
+    .reduce((sum, add) => {return sum + add;});
+    console.log(maxScore);
     // ask the first question
     nextQuestion();
     // on click, skip wait screen
@@ -135,7 +151,9 @@ function guessAnswer(letterChoice) {
 
     // animate score
     if (guessedRight) {
-        // timer flies to score and gives that many points
+        // base points = question.timeallowed
+        addScore(currentQuestion.timeallowed);
+        // timer flies to score and gives that many bonus points
         $("#countdownTimer").animate({
             "right": $("#dropdownFrame").width()/2 - $("#scoreWindow").width()/2,
             "top": $("#scoreWindow").position().top
@@ -201,8 +219,26 @@ function showEndScreen() {
     $("#scoreWindow").hide();
     $("#answersWindow").hide();
     $("#countdownTimer").hide();
-    $("#finalScore").show().html("Round over!  Final score: " + score + 
-    "<br><br>" + '<button id="categoryButton" onclick="chooseCategory()">New Category</button>');
+    var htmlResponse = "Round over!  Final score: <span style='color: blue'>" + score + "</span> / (" + maxScore + " possible).<br><br>";
+    var percentage = (score / maxScore) * 100;
+    htmlResponse += '<span style="font-size: 16pt">';
+    if (percentage >= 90) {
+        htmlResponse += "Wow! Fast <i>and</i> accurate!  You must be " +
+        {"astronomy": "an astronomer", "animals": "a zoologist"}
+        [category] + "!";
+    }
+    else if (percentage >= 75) {
+        htmlResponse += "Solid!  You really know your stuff!";
+    }
+    else if (percentage >= 50) {
+        htmlResponse += "Not bad!  Clearly, you're not completely ignorant on this subject!";
+    }
+    else {
+        htmlResponse += "Don't take it too hard.  We've all got to start somewhere.";
+    }
+    htmlResponse += "</span>";
+    htmlResponse += "<br><br>" + '<button id="categoryButton" onclick="chooseCategory()">New Category</button>';
+    $("#finalScore").show().html(htmlResponse);
     $("#dropdownFrame").off("mousedown");
 }
 
@@ -222,7 +258,7 @@ function chooseCategory() {
             .attr('categoryData', category)
             .addClass("categoryButton")
             .on("click", function() {
-                questions = getCategory($(this).attr('categoryData'));
+                getCategory($(this).attr('categoryData'));
                 beginRound();
             })
         );
@@ -242,12 +278,12 @@ var timeRemaining = 0;
 var timers = [];
 function timeDown (seconds, next) {
     timeRemaining = seconds;
-    console.log ("clear timers");
+    // clear timers
     timers.forEach((timer) => {clearTimeout(timer);});
     timers = [];
     // position and show the timer element
     $("#countdownTimer")
-    .css({"left": "", "right": "10px", "top": "10px"})
+    .css({"left": "", "right": "20px", "top": "10px"})
     .show();
     // setup a cascading succession of timers
     for (i = 0; i <= seconds; i++) {
@@ -256,12 +292,13 @@ function timeDown (seconds, next) {
             $("#countdownTimer")
                 .text(timeRemaining)
                 // this doesn't work for some reason, had to replace the css instead (believe me, I tried and tested.  It's not working how it's supposed to...)
-                .addClass("pop")
-                .css({"border": "15px solid red", "border-radius": "40px", "top": "5px", "right": "5px"});
+                // .addClass("pop")
+                .css({"border": "15px solid red", "border-radius": "40px", "top": "5px", "right": "15px"});
             setTimeout(() => {
-                // this 
+                // this should work, but doesn't.
                 // $("#countdownTimer").removeClass("pop");
-                $("#countdownTimer").css({"border": "10px solid red", "border-radius": "35px", "top": "10px", "right": "10px"});
+                // put it back the way it was (use css)
+                $("#countdownTimer").css({"border": "10px solid red", "border-radius": "35px", "top": "10px", "right": "20px"});
             }, 50);
             timeRemaining--;
             console.log("countdown: " + timeRemaining);

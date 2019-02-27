@@ -13,6 +13,8 @@ body {
 
 #questionWindow {
     font-size: 14pt;
+    height: 100px;
+    width: calc(100% - 80px);
 }
 
 #answersWindow {
@@ -20,7 +22,8 @@ body {
 }
 
 #resultWindow {
-    height: 75px;
+    width: 100%;
+    height: 120px;
     user-select: auto;
 }
 
@@ -39,12 +42,14 @@ body {
     font-size: 35px;
     font-weight: bold;
     background-color: bisque;
+    display: inline-block;
     position: absolute;
     top: 10px;
-    right: 10px;
+    right: 20px;
 }
 
 #scoreContainer, #categories {
+    width: 100%;
     text-align: center;
 }
 
@@ -107,4 +112,10 @@ body {
           -ms-user-select: none; /* Internet Explorer/Edge */
               user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome and Opera */
-  }
+}
+
+@media screen and (max-width: 960px) {
+    #dropdownFrame {
+        width: 100%;
+    }
+}
