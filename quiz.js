@@ -23,36 +23,36 @@ function getCategories () {
     "astronomy": [
         new question("Which of these planets is the largest?",
         ["Mercury", "Venus", "Earth", "Mars"], 
-        10, "c", "At 12,742 km in diameter, Earth is about 5.3% larger than Venus."),
+        15, "c", "At 12,742 km in diameter, Earth is about 5.3% larger than Venus."),
         new question("If the sun were the size of a ping pong ball, located in Minneapolis, where might you find the next nearest star?",
         ["Saint Paul", "Pittsburg", "Antarctica", "The Moon"], 
-        10, "b", "With the sun at a scale of 4cm, the next nearest star (Alpha Centauri) would be about 1,188 km away."),
+        15, "b", "With the sun at a scale of 4cm, the next nearest star (Alpha Centauri) would be about 1,188 km away."),
         new question("Which is the largest number?",
         ["stars in the Milky Way", "humans on Earth", "age of the sun in years", "galaxies in the universe"], 
-        10, "d", "There are about one to two trillion galaxies in the observable universe, more than the number of stars in the Milky Way."),
+        15, "d", "There are about one to two trillion galaxies in the observable universe, more than the number of stars in the Milky Way."),
         new question("After Mars, which is the next largest object in the solar system?",
         ["Mercury", "Pluto", "Jupiter's moon Ganymede", "Saturn's moon Titan"],
-        10, "c", "Ganymede is 5,268 km in diameter, larger than the planet Mercury (4,878 km)! Titan is only slightly smaller at 5,151 km.  Tiny Pluto is just 2,390km across."),
+        15, "c", "Ganymede is 5,268 km in diameter, larger than the planet Mercury (4,878 km)! Titan is only slightly smaller at 5,151 km.  Tiny Pluto is just 2,390km across."),
         new question("Which of these objects is largest in diameter?",
         ["neutron star", "brown dwarf", "black hole", "Earth"],
-        10, "b", "Though massive, neturon stars and black holes are extremely dense, making them physically much smaller than Earth.  A brown dwarf (a would-be star too small to ignite) is nonetheless larger than Jupiter.")
+        15, "b", "Though massive, neturon stars and black holes are extremely dense, making them physically much smaller than Earth.  A brown dwarf (a would-be star too small to ignite) is nonetheless larger than Jupiter.")
     ],
     "animals": [
         new question("What is the largest animal the has ever lived?",
         ["blue whale", "megalodon", "gigantosaurus", "ichthysaurus"], 
-        10, "a", "With a mass of up to 170 metric tons, the blue whale is larger than any dinosaur ever discovered."),
+        15, "a", "With a mass of up to 170 metric tons, the blue whale is larger than any dinosaur ever discovered."),
         new question("Which mammal is most distantly related to humans?",
         ["kangaroo", "walrus", "elephant", "zebra"], 
-        10, "a", "Kangaroos and other marsupials diverged from the rest of the mammalian family tree at least 65 million years ago."),
+        15, "a", "Kangaroos and other marsupials diverged from the rest of the mammalian family tree at least 65 million years ago."),
         new question("Which of these is not a rodent?",
         ["capybara", "chinchilla", "beaver", "elephant shrew"], 
-        10, "d", "Though originally named for its trunk-like nose, it turns out that the elephant shrew is actually more closely related to elephants than shrews."),
+        15, "d", "Though originally named for its trunk-like nose, it turns out that the elephant shrew is actually more closely related to elephants than shrews."),
         new question("Which of these creatures does not lay eggs?",
         ["echidna", "giant tortise", "rattlesnake", "bullfrog"], 
-        10, "c", "Many snakes do lay eggs; the rattlesnake, however, gives birth to live young."),
+        15, "c", "Many snakes do lay eggs; the rattlesnake, however, gives birth to live young."),
         new question("Which of these swims the fastest?",
         ["blue whale", "flying fish", "Michael Phelps", "sailfish"], 
-        10, "d", "With a top speed comparable to that of a cheetah, the sailfish is the fastest fish in the sea.")
+        15, "d", "With a top speed comparable to that of a cheetah, the sailfish is the fastest fish in the sea.")
     ]};
 }
 
@@ -219,8 +219,9 @@ function showEndScreen() {
     $("#scoreWindow").hide();
     $("#answersWindow").hide();
     $("#countdownTimer").hide();
-    var htmlResponse = "Round over!  Final score: <span style='color: blue'>" + score + "</span> / (" + maxScore + " possible).<br><br>";
+    var htmlResponse = "Round over!  Final score: <span style='color: blue'>" + score + "</span> ";
     var percentage = (score / maxScore) * 100;
+    htmlResponse += "(" + percentage + "%).<br><br>";
     htmlResponse += '<span style="font-size: 16pt">';
     if (percentage >= 90) {
         htmlResponse += "Wow! Fast <i>and</i> accurate!  You must be " +
