@@ -13,7 +13,7 @@ body {
 
 #questionWindow {
     font-size: 14pt;
-    height: 100px;
+    height: 75px;
     width: calc(100% - 80px);
 }
 
@@ -23,7 +23,7 @@ body {
 
 #resultWindow {
     width: 100%;
-    height: 120px;
+    height: 150px;
     user-select: auto;
 }
 
