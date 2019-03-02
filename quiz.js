@@ -14,13 +14,23 @@ class question {
         this.rightAnswer = rightAnswer;
         this.explanation = explanation;
     }
-    guess(number) {
-        return (number == this.rightAnswer);
+    guess(letter) {
+        return (letter == this.rightAnswer);
     }
 }
 function getCategories () {
+    var rnd = Math.random();
     return {
     "astronomy": [
+        new question("Which of these is not a planet?",
+        ["Mercury", "Saturn", "Neptune", "Ceres"], 
+        15, "d", "Officially classified as a dwarf planet, Ceres is the largest object in the asteroid belt."),
+        new question("Which planet is furthest from the sun?",
+        ["Neptune", "Saturn", "Mars", "Jupiter"], 
+        15, "a", "Averaging 4.5 billion km from the sun, Neptune take almost 165 years to complete one orbit."),
+        new question("Which planet is the hottest?",
+        ["Jupiter", "Venus", "Mercury", "Mars"], 
+        15, "b", "The surface of Venus averages 467° C, hot enough to melt lead."),
         new question("Which of these planets is the largest?",
         ["Mercury", "Venus", "Earth", "Mars"], 
         15, "c", "At 12,742 km in diameter, Earth is about 5.3% larger than Venus."),
@@ -38,6 +48,41 @@ function getCategories () {
         15, "b", "Though massive, neturon stars and black holes are extremely dense, making them physically much smaller than Earth.  A brown dwarf (a would-be star too small to ignite) is nonetheless larger than Jupiter.")
     ],
     "animals": [
+        new question("What is the name of the largest shark that ever lived?",
+        ["megalodon", "gigantosaurus", "hammerhead", "jaws"], 
+        15, "a", "Estimated to grown to over 50 feet, the megalodon preyed on early whales."),
+        new question("Which animal lives the furthest north?",
+        ["gazelle", "walrus", "penguin", "sloth"], 
+        15, "b", "Walruses swim in the artic sea, sometimes sleeping on icebergs."),
+        new question("Which of these animals can bite the hardest?",
+        ["baboon", "chinchilla", "lion", "spotted hyena"], 
+        15, "d", "Hyenas' powerful jaws are built for crushing bone."),
+        new question("What is the largest animal the has ever lived?",
+        ["blue whale", "megalodon", "gigantosaurus", "ichthysaurus"], 
+        15, "a", "With a mass of up to 170 metric tons, the blue whale is larger than any dinosaur ever discovered."),
+        new question("Which mammal is most distantly related to humans?",
+        ["kangaroo", "walrus", "elephant", "zebra"], 
+        15, "a", "Kangaroos and other marsupials diverged from the rest of the mammalian family tree at least 65 million years ago."),
+        new question("Which of these is not a rodent?",
+        ["capybara", "chinchilla", "beaver", "elephant shrew"], 
+        15, "d", "Though originally named for its trunk-like nose, it turns out that the elephant shrew is actually more closely related to elephants than shrews."),
+        new question("Which of these creatures does not lay eggs?",
+        ["echidna", "giant tortise", "rattlesnake", "bullfrog"], 
+        15, "c", "Many snakes do lay eggs; the rattlesnake, however, gives birth to live young."),
+        new question("Which of these swims the fastest?",
+        ["blue whale", "flying fish", "Michael Phelps", "sailfish"], 
+        15, "d", "With a top speed comparable to that of a cheetah, the sailfish is the fastest fish in the sea.")
+    ],
+    "math": [
+        new question("Which of these is an even number?",
+        ["32", "13", "25", "37"], 
+        15, "a", "That was a softball."),
+        new question("What is " + (parseInt(rnd * (43) % 9) + 1) + " * " + (parseInt(rnd * (675) % 10) + 1) + "?",
+        [(parseInt(rnd * (43) % 9) + 1) * (parseInt(rnd * (675) % 10) + 1), "42", "57", "63"], 
+        15, "a", "You can use a calculator if you want."),
+        new question("?",
+        ["baboon", "chinchilla", "lion", "spotted hyena"], 
+        15, "d", "Hyenas' powerful jaws are built for crushing bone."),
         new question("What is the largest animal the has ever lived?",
         ["blue whale", "megalodon", "gigantosaurus", "ichthysaurus"], 
         15, "a", "With a mass of up to 170 metric tons, the blue whale is larger than any dinosaur ever discovered."),
@@ -232,10 +277,10 @@ function showEndScreen() {
         htmlResponse += "Solid!  You really know your stuff!";
     }
     else if (percentage >= 50) {
-        htmlResponse += "Not bad!  Clearly, you're not completely ignorant on this subject!";
+        htmlResponse += "Not bad!  Looks like you know a thing or two about " + category + ".";
     }
     else {
-        htmlResponse += "Don't take it too hard.  We've all got to start somewhere.";
+        htmlResponse += "Maybe this is not your area of expertise.";
     }
     htmlResponse += "</span>";
     htmlResponse += "<br><br>" + '<button id="categoryButton" onclick="chooseCategory()">New Category</button>';
