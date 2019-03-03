@@ -77,27 +77,12 @@ function getCategories () {
         new question("Which of these is an even number?",
         ["32", "13", "25", "37"], 
         15, "a", "That was a softball."),
-        new question("What is " + (parseInt(rnd * (43) % 9) + 1) + " * " + (parseInt(rnd * (675) % 10) + 1) + "?",
-        [(parseInt(rnd * (43) % 9) + 1) * (parseInt(rnd * (675) % 10) + 1), "42", "57", "63"], 
-        15, "a", "You can use a calculator if you want."),
-        new question("?",
-        ["baboon", "chinchilla", "lion", "spotted hyena"], 
-        15, "d", "Hyenas' powerful jaws are built for crushing bone."),
-        new question("What is the largest animal the has ever lived?",
-        ["blue whale", "megalodon", "gigantosaurus", "ichthysaurus"], 
-        15, "a", "With a mass of up to 170 metric tons, the blue whale is larger than any dinosaur ever discovered."),
-        new question("Which mammal is most distantly related to humans?",
-        ["kangaroo", "walrus", "elephant", "zebra"], 
-        15, "a", "Kangaroos and other marsupials diverged from the rest of the mammalian family tree at least 65 million years ago."),
-        new question("Which of these is not a rodent?",
-        ["capybara", "chinchilla", "beaver", "elephant shrew"], 
-        15, "d", "Though originally named for its trunk-like nose, it turns out that the elephant shrew is actually more closely related to elephants than shrews."),
-        new question("Which of these creatures does not lay eggs?",
-        ["echidna", "giant tortise", "rattlesnake", "bullfrog"], 
-        15, "c", "Many snakes do lay eggs; the rattlesnake, however, gives birth to live young."),
-        new question("Which of these swims the fastest?",
-        ["blue whale", "flying fish", "Michael Phelps", "sailfish"], 
-        15, "d", "With a top speed comparable to that of a cheetah, the sailfish is the fastest fish in the sea.")
+        new question("What is " + (parseInt(rnd * 43 % 9) + 3) + " * " + (parseInt(rnd * 675 % 13) + 6) + "?",
+        ["112", "97", "63", (parseInt(rnd * (43) % 9) + 1) * (parseInt(rnd * (675) % 10) + 1)], 
+        15, "d", "You can use a calculator if you want."),
+        new question("Which of these numbers is prime?",
+        ["2", "6", "51", "497"], 
+        15, "a", "2 is considered a prime number.  7 * 71 = 497."),
     ]};
 }
 
@@ -265,7 +250,7 @@ function showEndScreen() {
     $("#answersWindow").hide();
     $("#countdownTimer").hide();
     var htmlResponse = "Round over!  Final score: <span style='color: blue'>" + score + "</span> ";
-    var percentage = (score / maxScore) * 100;
+    var percentage = parseInt((score / maxScore) * 1000) / 10;
     htmlResponse += "(" + percentage + "%).<br><br>";
     htmlResponse += '<span style="font-size: 16pt">';
     if (percentage >= 90) {
