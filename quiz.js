@@ -45,12 +45,12 @@ function getCategories () {
         15, "c", "Ganymede is 5,268 km in diameter, larger than the planet Mercury (4,878 km)! Titan is only slightly smaller at 5,151 km.  Tiny Pluto is just 2,390km across."),
         new question("Which of these objects is largest in diameter?",
         ["neutron star", "brown dwarf", "black hole", "Earth"],
-        15, "b", "Though massive, neturon stars and black holes are extremely dense, making them physically much smaller than Earth.  A brown dwarf (a would-be star too small to ignite) is nonetheless larger than Jupiter.")
+        15, "b", "Though massive, neturon stars and black holes are extremely dense, making them physically much smaller than Earth.  A brown dwarf (a would-be star too small to ignite) is still larger than Jupiter.")
     ],
     "animals": [
         new question("What is the name of the largest shark that ever lived?",
         ["megalodon", "gigantosaurus", "hammerhead", "jaws"], 
-        15, "a", "Estimated to grown to over 50 feet, the megalodon preyed on early whales."),
+        15, "a", "Estimated to have grown to over 50 feet, the megalodon preyed on early whales."),
         new question("Which animal lives the furthest north?",
         ["gazelle", "walrus", "penguin", "sloth"], 
         15, "b", "Walruses swim in the artic sea, sometimes sleeping on icebergs."),
@@ -68,11 +68,11 @@ function getCategories () {
         15, "d", "Though originally named for its trunk-like nose, it turns out that the elephant shrew is actually more closely related to elephants than shrews."),
         new question("Which of these creatures does not lay eggs?",
         ["echidna", "giant tortise", "rattlesnake", "bullfrog"], 
-        15, "c", "Many snakes do lay eggs; the rattlesnake, however, gives birth to live young."),
+        15, "c", "Many snakes do lay eggs; rattlesnakes, however, give birth to live young."),
         new question("Which of these swims the fastest?",
         ["blue whale", "flying fish", "Michael Phelps", "sailfish"], 
         15, "d", "With a top speed comparable to that of a cheetah, the sailfish is the fastest fish in the sea.")
-    ],
+    ], 
     "math": [
         new question("Which of these is an even number?",
         ["32", "13", "25", "37"], 
@@ -83,6 +83,9 @@ function getCategories () {
         new question("Which of these numbers is prime?",
         ["2", "6", "51", "497"], 
         15, "a", "2 is considered a prime number.  7 * 71 = 497."),
+        new question("Which number is larger?",
+        ["2<sup>10</sup>", "10<sup>2</sup>", "3<sup>8</sup>", "497"], 
+        15, "c", "2<sup>10</sup> = 1024. 10<sup>2</sup> = 100. 3<sup>8</sup> = 6561.`"),
     ]};
 }
 
@@ -97,19 +100,23 @@ $('document').ready(() => {
 });
 
 function beginRound() {
+    // show some things
     $("#resultWindow").show();
     $("#questionWindow").show();
     $("#scoreWindow").show();
     $("#answersWindow").show();
     $("#countdownTimer").show();
+    // hide others
     $("#finalScore").hide();
     $("#categories").hide();
+    $("#pauseSymbol").hide();
     // clear score
     addScore(-score);
     // calculate max points
-    maxScore = questions.map((question) => {return question.timeallowed * 2;})
-    .reduce((sum, add) => {return sum + add;});
-    console.log(maxScore);
+    maxScore = questions.map((question) => {
+        return question.timeallowed * 2;})
+        .reduce((sum, add) => {return sum + add;});
+    console.log("max score this round: " + maxScore);
     // ask the first question
     nextQuestion();
     // on click, skip wait screen
@@ -118,6 +125,31 @@ function beginRound() {
         dropScreen();
     });    
 }
+
+var paused = false;
+$(document).on("keyup", (event) => {
+    switch (event.key) {
+    // case " ":
+    //     if (!paused) {
+    //         // pause
+    //         $("#pauseSymbol").show();
+    //         paused = true;
+    //     }
+    //     else {
+    //         // unpause
+    //         $("#pauseSymbol").hide();
+    //         paused = false;
+    //     }
+    //     // set each timer
+    //     timers.forEach ((timer) => {
+    //         if (paused) timer.pause();
+    //         else timer.resume();
+    //     });
+    //     break;
+    case "a", "b", "c", "d":
+        guessAnswer(event.key);
+    }
+});
 
 function postQuestion(question) {
     var letters = ["a", "b", "c", "d", "e"];
@@ -130,7 +162,7 @@ function postQuestion(question) {
             // add the answer buttons
             question.answers.map((answer, i) => {
                 return $('<button></button><br>')
-                .text(letters[i] + ": " + answer)
+                .html(letters[i] + ": " + answer)
                 .on("click", () => {guessAnswer(letters[i]);})
                 .addClass("answerButton");
             })
@@ -170,8 +202,10 @@ function guessAnswer(letterChoice) {
     }
     // clear timers
     timers.forEach(timer => {
-        clearTimeout(timer);
+        timer.clearTimeout();
     });
+    timers = [];
+
     // clear answer buttons
     $(".answerButton").off("click");
 
@@ -209,7 +243,7 @@ function guessAnswer(letterChoice) {
     }
     // seven seconds til next question
     // enough time to read the explainer, probably
-    timers.push(setTimeout(dropScreen, 7000));
+    timers.push(new timer(dropScreen, 7000));
 }
 
 function dropScreen () {
@@ -255,7 +289,7 @@ function showEndScreen() {
     htmlResponse += '<span style="font-size: 16pt">';
     if (percentage >= 90) {
         htmlResponse += "Wow! Fast <i>and</i> accurate!  You must be " +
-        {"astronomy": "an astronomer", "animals": "a zoologist"}
+        {"astronomy": "an astronomer", "animals": "a zoologist", "math": "a mathmetician"}
         [category] + "!";
     }
     else if (percentage >= 75) {
@@ -307,10 +341,10 @@ function chooseCategory() {
 
 var timeRemaining = 0;
 var timers = [];
-function timeDown (seconds, next) {
+function timeDown (seconds, callback) {
     timeRemaining = seconds;
     // clear timers
-    timers.forEach((timer) => {clearTimeout(timer);});
+    timers.forEach((timer) => {timer.clearTimeout();});
     timers = [];
     // position and show the timer element
     $("#countdownTimer")
@@ -319,21 +353,19 @@ function timeDown (seconds, next) {
     // setup a cascading succession of timers
     for (i = 0; i <= seconds; i++) {
         var timeleft = seconds - i;
-        timers.push(setTimeout(() => {
+        timers.push(new timer(() => {
             $("#countdownTimer")
                 .text(timeRemaining)
-                // this doesn't work for some reason, had to replace the css instead (believe me, I tried and tested.  It's not working how it's supposed to...)
-                // .addClass("pop")
+                // .addClass("pop") -- this doesn't work for some reason, had to replace the css instead (believe me, I tried and tested.  It's not working how it's supposed to...)
+                // flash border
                 .css({"border": "15px solid red", "border-radius": "40px", "top": "5px", "right": "15px"});
-            setTimeout(() => {
-                // this should work, but doesn't.
-                // $("#countdownTimer").removeClass("pop");
-                // put it back the way it was (use css)
+            new timer(() => {
+                // un-flash
                 $("#countdownTimer").css({"border": "10px solid red", "border-radius": "35px", "top": "10px", "right": "20px"});
-            }, 50);
+                }, 50); // 50ms later
             timeRemaining--;
             console.log("countdown: " + timeRemaining);
         }, (seconds-i) * 1000));
     }
-    timers.push(setTimeout(next, seconds * 1000));
+    timers.push(new timer(callback, seconds * 1000));
 }

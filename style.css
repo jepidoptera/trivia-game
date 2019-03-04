@@ -7,24 +7,38 @@ body {
     width: 960px;
     display: inline-block;
     position: relative;
-    text-align: left;
+    /* text-align: left; */
     padding: 10px;
 }
 
 #questionWindow {
-    font-size: 14pt;
+    font-size: 16pt;
+    text-align: center;
     height: 75px;
     width: calc(100% - 80px);
 }
 
 #answersWindow {
     margin: 10px 0;
+    position: relative;
+    left: 20%;
+    text-align: left;
 }
 
 #resultWindow {
     width: 100%;
     height: 150px;
     user-select: auto;
+}
+
+#pauseSymbol {
+    font-size: 24pt;
+    font-weight: bolder;
+    color: black;
+    height: 54px;
+    width: 54px;
+    border-radius: 26px;
+    border: 26px solid whitesmoke;
 }
 
 #finalScore {
@@ -89,7 +103,7 @@ body {
 }
 
 .answerButton {
-    font-size: 12pt;
+    font-size: 14pt;
     background-color: bisque;
     border-radius: 3px;
     margin: 10px 0 10px 50px;
