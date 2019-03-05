@@ -78,7 +78,7 @@ function getCategories () {
         ["32", "13", "25", "37"], 
         15, "a", "That was a softball."),
         new question("What is " + (parseInt(rnd * 43 % 9) + 3) + " * " + (parseInt(rnd * 675 % 13) + 6) + "?",
-        ["112", "97", "63", (parseInt(rnd * 43 % 9) + 3) * (parseInt(rnd * 675 % 10) + 6)], 
+        ["112", "97", "63", (parseInt(rnd * 43 % 9) + 3) * (parseInt(rnd * 675 % 13) + 6)], 
         15, "d", "You can use a calculator if you want."),
         new question("Which of these numbers is prime?",
         ["2", "6", "51", "497"], 
