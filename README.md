@@ -1,2 +1,2 @@
 # trivia-game
-simple trivia app
+Simple trivia app.  Three categories, several questions each, countdown timer.  Test your knowledge
